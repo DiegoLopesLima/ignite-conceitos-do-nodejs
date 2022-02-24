@@ -58,7 +58,7 @@ app.get('/todos', checksExistsUserAccount, (request, response) => {
 
 app.post('/todos', checksExistsUserAccount, (request, response) => {
   const
-    { title, deadline } = request.body,
+    { title, deadline, username } = request.body,
     todo = {
       id: uuid.v4(),
       done: false,
@@ -66,7 +66,7 @@ app.post('/todos', checksExistsUserAccount, (request, response) => {
       deadline: new Date(deadline),
       title
     },
-    user = users.find(item => item.username === request.body.username);
+    user = users.find(item => item.username === username);
 
   user.todos.push(todo);
 
@@ -77,8 +77,8 @@ app.post('/todos', checksExistsUserAccount, (request, response) => {
 
 app.put('/todos/:id', checksExistsUserAccount, (request, response) => {
   const
-    { title, deadline } = request.body,
-    user = users.find(item => item.username === request.body.username),
+    { title, deadline, username } = request.body,
+    user = users.find(item => item.username === username),
     todo = user.todos.find(item => item.id === request.params.id);
 
   if (todo) {
